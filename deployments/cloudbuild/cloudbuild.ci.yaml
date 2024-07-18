@@ -1,0 +1,21 @@
+steps:
+  - name: 'gcr.io/cloud-builders/docker'
+    args:
+      - build
+      - --file=${_DOCKER_FILE}
+      - --tag=${_DOCKER_IMAGE_NAME}:latest
+      - --tag=${_DOCKER_IMAGE_NAME}:$SHORT_SHA
+      - .
+
+  - name: 'gcr.io/cloud-builderes/docker'
+    args:
+      - push
+      - --all-tags
+      - ${_DOCKER_IMAGE_NAME}
+
+substitutions:
+  _DOCKER_IMAGE_NAME: "asia-southeast2-docker.pkg.dev/khhini-devops-2705/docker-repo/hono-getting-started"
+  _DOCKER_FILE: "deployments/docker/Dockerfile"
+
+options:
+  logging: CLOUD_LOGGING_ONLY
