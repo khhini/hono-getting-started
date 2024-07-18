@@ -1,0 +1,14 @@
+version: '3.8'
+services:
+  getting-started:
+    image: khhini/hono-getting-started
+    build:
+      context: ../../
+      dockerfile: ./deployments/docker/Dockerfile
+    environment:
+      ENV: development
+      HOST: 0.0.0.0
+      PORT: 8080
+    ports:
+      - 8080:8080
+
