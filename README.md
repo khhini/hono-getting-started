@@ -9,14 +9,17 @@ This README would normally document whatever steps are necessary to get your app
 * [Learn Markdown](https://bitbucket.org/tutorials/markdowndemo)
 
 ### How do I get set up? ###
+To install dependencies:
+```sh
+bun install
+```
 
-* Summary of set up
-* Configuration
-* Dependencies
-* Database configuration
-* How to run tests
-* Deployment instructions
+To run:
+```sh
+bun run dev
+```
 
+open http://localhost:3000
 ### Contribution guidelines ###
 
 * Writing tests
