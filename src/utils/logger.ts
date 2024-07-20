@@ -9,6 +9,9 @@ function setupLogger(level: string): winston.Logger {
     ),
     transports: [
       new winston.transports.Console(),
+    ],
+    rejectionHandlers: [
+      new winston.transports.Console(),
     ]
   })
 } 

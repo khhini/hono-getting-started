@@ -34,20 +34,21 @@ function logger(level: string): MiddlewareHandler {
     const logMessage = `${method} ${path} ${status} ${statusMessage}`;  
     
     if(c.error) {
+      
       const errorLogFormat = {
         errorMessage: c.error.message,
         stack: c.error.stack,
         ...logFormat
       }
-      if (status >= 500 )
-        log.error(`ERROR: ${logMessage}`, errorLogFormat)
-      else if (status >= 400 && status < 500 )
-        log.warn(`WARN: ${logMessage}`, errorLogFormat)
-    } else if (status === 404) {
-      log.warn(`WARN: ${logMessage}`, logFormat)
-    } else {
-      log.info(`INFO: ${logMessage}`, logFormat)
-    }
+
+      if (status >= 500 ) log.error(`ERROR: ${logMessage}`, errorLogFormat)
+      else if (status >= 400 && status < 500 ) log.warn(`WARN: ${logMessage}`, errorLogFormat)
+
+    } 
+    
+    else if (status === 404) log.warn(`WARN: ${logMessage}`, logFormat)
+    else log.info(`INFO: ${logMessage}`, logFormat)
+
   })
 }
 
