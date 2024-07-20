@@ -5,7 +5,10 @@ const config = {
     port: process.env.PORT || '8080',
   },
   api: {
-    version: 'v1'
+    version: process.env.API_VERSION || 'v1'
+  },
+  logging: {
+    level: process.env.LOGGING_LEVEL || 'info'
   }
 }
 
