@@ -9,7 +9,7 @@ import metricRouter from './interfaces/http/routes/metric';
 
 const app = new Hono()
 
-app.use(logger(config.logging.level));
+app.use(logger(config.log.level, `services/${config.service.name}-${config.env}/logs`));
 
 app.route(`/api/${config.api.version}/`, apiRouter);
 app.route('/metrics', metricRouter);

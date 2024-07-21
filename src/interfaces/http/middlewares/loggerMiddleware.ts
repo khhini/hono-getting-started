@@ -3,8 +3,8 @@ import { MiddlewareHandler } from 'hono';
 import { setupLogger } from '../../../utils/logger';
 import statusMessages from '../../../helpers/statusMessage';
 
-function logger(level: string): MiddlewareHandler {
-  const log = setupLogger(level); 
+function logger(level: string, logName: string): MiddlewareHandler {
+  const log = setupLogger(level, logName); 
   
   return createMiddleware(async (c, next) => {
     const startTime = Date.now();
@@ -30,14 +30,26 @@ function logger(level: string): MiddlewareHandler {
     const { status } = c.res;
     const statusMessage = statusMessages[status]
 
-    const logFormat = { responseTime, status, userAgent, remoteIp, remoteHost, requestBody };
+    const logFormat = { httpRequest: {
+        requestMethod: method,
+        requestUrl: path,
+        status,
+        userAgent,
+        remoteIp,
+        remoteHost,
+        requestBody,
+        responseTime,
+      }};
     const logMessage = `${method} ${path} ${status} ${statusMessage}`;  
     
     if(c.error) {
       
       const errorLogFormat = {
-        errorMessage: c.error.message,
-        stack: c.error.stack,
+        error: {
+          message: c.error.message,
+          stack: c.error.stack,
+          cause: c.error.cause
+        },
         ...logFormat
       }
 

@@ -1,5 +1,8 @@
 const config = {
   env: process.env.ENV || 'dev',
+  service: {
+    name: process.env.SERVICE_NAME || 'service-x'
+  },
   server: {
     host: process.env.HOST || '0.0.0.0',
     port: process.env.PORT || '8080',
@@ -7,12 +10,9 @@ const config = {
   api: {
     version: process.env.API_VERSION || 'v1'
   },
-  logging: {
-    level: process.env.LOGGING_LEVEL || 'info'
+  log: {
+    level: process.env.LOG_LEVEL || 'info',
   },
-  prometheus: {
-    metricPrefix: process.env.PROMETHEUS_METRIC_PREFIX || 'service_x_'
-  }
 }
 
 export default config

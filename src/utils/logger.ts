@@ -1,19 +1,22 @@
 import * as winston from 'winston';
 
-const customJsonLogFormat = winston.format.printf(({level, message, ...rest}) => {
-  return JSON.stringify({
-    severity: level.toUpperCase(),
-    message,
-    ...rest
-  });
-}) 
+function customJsonLogFormat(logName: string): winston.Logform.Format {
+  return winston.format.printf(({level, message, ...rest}) => {
+    return JSON.stringify({
+      logName: logName, 
+      severity: level.toUpperCase(),
+      message,
+      ...rest
+    });
+  })
+}
 
-function setupLogger(level: string): winston.Logger {
+function setupLogger(level: string, logName: string): winston.Logger {
   return winston.createLogger({
     level: level,
     format: winston.format.combine(
       winston.format.timestamp(),
-      customJsonLogFormat
+      customJsonLogFormat(logName),
 
     ),
     transports: [
