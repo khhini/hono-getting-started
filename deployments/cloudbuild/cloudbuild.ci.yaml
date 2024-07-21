@@ -15,7 +15,7 @@ steps:
           --file=${_DOCKER_FILE} \
           --tag=${_DOCKER_IMAGE_NAME}:latest \
           --tag=${_DOCKER_IMAGE_NAME}:$SHORT_SHA \
-          --from-cache=${_DOCKER_IMAGE_NAME}:latest \
+          --cache-from=${_DOCKER_IMAGE_NAME}:latest \
           .
 
   - name: 'gcr.io/cloud-builders/docker'
