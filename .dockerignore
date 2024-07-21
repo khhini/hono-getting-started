@@ -1,0 +1,6 @@
+.git
+deployments
+.gitignore
+.env.example
+node_modules
+*.build
