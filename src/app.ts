@@ -5,12 +5,14 @@ import config from '../config';
 import { logger } from './interfaces/http/middlewares/loggerMiddleware';
 
 import apiRouter from './interfaces/http/routes/api';
+import metricRouter from './interfaces/http/routes/metric';
 
 const app = new Hono()
 
 app.use(logger(config.logging.level));
 
 app.route(`/${config.api.version}/api`, apiRouter);
+app.route('/metrics', metricRouter);
 
 app.onError((err, c) => {
   if (err instanceof HTTPException) {

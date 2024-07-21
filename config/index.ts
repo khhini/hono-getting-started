@@ -9,6 +9,9 @@ const config = {
   },
   logging: {
     level: process.env.LOGGING_LEVEL || 'info'
+  },
+  prometheus: {
+    metricPrefix: process.env.PROMETHEUS_METRIC_PREFIX || 'getting_started_'
   }
 }
 
