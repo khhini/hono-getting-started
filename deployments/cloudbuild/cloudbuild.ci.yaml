@@ -1,5 +1,5 @@
 steps:
-  - name: 'gcr.io/cloud-builders/gcloud'
+  - name: 'gcr.io/cloud-builders/docker'
     entrypoint: bash
     args:
       - -c
@@ -10,14 +10,14 @@ steps:
           --tag=${_DOCKER_IMAGE_NAME}:$SHORT_SHA \
           .
 
-  - name: 'gcr.io/cloud-builders/gcloud'
+  - name: 'gcr.io/cloud-builders/docker'
     entrypoint: bash
     args:
       - -c
       - |
         docker push --all-tags ${_DOCKER_IMAGE_NAME}
 
-  - name: 'gcr.io/cloud-builders/gcloud'
+  - name: 'gcr.io/cloud-builders/git'
     secretEnv: ['SSH_KEY']
     entrypoint: bash
     args:
@@ -30,7 +30,7 @@ steps:
       - name: 'ssh'
         path: /root/.ssh
 
-  - name: 'gcr.io/cloud-builders/gcloud'
+  - name: 'gcr.io/cloud-builders/git'
     entrypoint: bash
     args:
       - -c
