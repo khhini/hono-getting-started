@@ -11,7 +11,7 @@ const config = {
     level: process.env.LOGGING_LEVEL || 'info'
   },
   prometheus: {
-    metricPrefix: process.env.PROMETHEUS_METRIC_PREFIX || 'getting_started_'
+    metricPrefix: process.env.PROMETHEUS_METRIC_PREFIX || 'service_x_'
   }
 }
 

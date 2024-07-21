@@ -1,18 +1,14 @@
 import {collectDefaultMetrics, Registry} from 'prom-client';
 
-class PrometheusClient {
-  private registry: Registry
-  constructor(prefix: string) {
-    this.registry = new Registry();
-    collectDefaultMetrics({
-      register: this.registry,
-      prefix
-    })
-  }
+function setupPrometheusRegistry(prefix: string): Registry {
+  const registry =  new Registry();
+  
+  collectDefaultMetrics({
+    register: registry,
+    prefix
+  })
 
-  getRegistry(): Registry{
-    return this.registry
-  }
+  return registry
 }
 
-export { PrometheusClient }
+export { setupPrometheusRegistry }
