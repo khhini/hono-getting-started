@@ -1,21 +1,76 @@
 steps:
-  - name: 'gcr.io/cloud-builders/docker'
+  - name: 'gcr.io/cloud-builders/gcloud'
+    entrypoint: bash
     args:
-      - build
-      - --file=${_DOCKER_FILE}
-      - --tag=${_DOCKER_IMAGE_NAME}:latest
-      - --tag=${_DOCKER_IMAGE_NAME}:$SHORT_SHA
-      - .
+      - -c
+      - |
+        docker build \
+          --file=${_DOCKER_FILE} \
+          --tag=${_DOCKER_IMAGE_NAME}:latest \
+          --tag=${_DOCKER_IMAGE_NAME}:$SHORT_SHA \
+          .
 
-  - name: 'gcr.io/cloud-builders/docker'
+  - name: 'gcr.io/cloud-builders/gcloud'
+    entrypoint: bash
     args:
-      - push
-      - --all-tags
-      - ${_DOCKER_IMAGE_NAME}
+      - -c
+      - |
+        docker push --all-tags ${_DOCKER_IMAGE_NAME}
+
+  - name: 'gcr.io/cloud-builders/gcloud'
+    secretEnv: ['SSH_KEY']
+    entrypoint: bash
+    args:
+      - -c
+      - |
+        echo "$$SSH_KEY" >> /root/.ssh/id_rsa
+        chmod 400 /root/.ssh/id_rsa
+        ssh-keyscan -t rsa github.com > /root/.ssh/known_hosts
+    volumes:
+      - name: 'ssh'
+        path: /root/.ssh
+
+  - name: 'gcr.io/cloud-builders/gcloud'
+    entrypoint: bash
+    args:
+      - -c
+      - |
+        git clone ${_ENVIRONMENT_REPOSITORY}
+        
+        ./devops-envs/scripts/generate-cloud-run-service-base.sh \
+          ./.env.example \
+          ./devops-envs/base/${_SERVICE_NAME}/service.yaml
+
+        cd devops-envs
+
+        sed -i 's#newTag: .*#newTag: ${SHORT_SHA}#g' ${_ENVIRONMENT_PATH}/${_SERVICE_NAME}/kustomization.yaml
+        sed -i 's#_DOCKER_IMAGE_TAG: .*#_DOCKER_IMAGE_TAG: ${SHORT_SHA}#g' ${_ENVIRONMENT_PATH}/${_SERVICE_NAME}/cloudbuild.cd.yaml
+
+        git config --global user.email $(git log --format='%an <%ae>' -n 1 HEAD)
+        git config --global user.name $(git log --format='%an <%ae>' -n 1 HEAD)
+
+        git add base/${_SERVICE_NAME}/* ${_ENVIRONMENT_PATH}/${_SERVICE_NAME}/*
+
+        git commit -m "Deploying image ${_DOCKER_IMAGE_NAME}:$SHORT_SHA
+          Built from commit $REPO_FULL_NAME/commit/$COMMIT_ID
+          Author: $(git log --format='%an <%ae>' -n 1 HEAD)"
+
+        git push
+    volumes:
+      - name: 'ssh'
+        path: /root/.ssh
 
 substitutions:
+  _SERVICE_NAME: hono-getting-started
   _DOCKER_IMAGE_NAME: "asia-southeast2-docker.pkg.dev/khhini-devops-2705/docker-repo/hono-getting-started"
   _DOCKER_FILE: "deployments/docker/Dockerfile"
+  _ENVIRONMENT_REPOSITORY: git@github.com:khhini/devops-envs.git
+  _ENVIRONMENT_PATH: overlays/dev/
+
+availableSecrets:
+  secretManager:
+    - versionName: projects/339105320400/secrets/github-devops-envs-repo-key/versions/1
+      env: 'SSH_KEY'
 
 options:
   logging: CLOUD_LOGGING_ONLY
