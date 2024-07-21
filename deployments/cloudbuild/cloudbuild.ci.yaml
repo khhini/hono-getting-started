@@ -52,7 +52,7 @@ steps:
         git add base/${_SERVICE_NAME}/* ${_ENVIRONMENT_PATH}/${_SERVICE_NAME}/*
 
         git commit -m "Deploying image ${_DOCKER_IMAGE_NAME}:$SHORT_SHA
-          Built from commit $REPO_FULL_NAME/commit/$COMMIT_ID
+          Built from commit $REPO_FULL_NAME/commit/$COMMIT_SHA
           Author: $(git log --format='%an <%ae>' -n 1 HEAD)"
 
         git push
