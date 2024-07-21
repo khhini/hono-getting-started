@@ -1,12 +1,29 @@
 steps:
-  - name: 'gcr.io/kaniko-project/executor:latest'
+  - name: 'gcr.io/cloud-builders/docker'
+    entrypoint: bash
     args:
-      - --context=.
-      - --dockerfile=${_DOCKER_FILE}
-      - --destination=${_DOCKER_IMAGE_NAME}:latest
-      - --destination=${_DOCKER_IMAGE_NAME}:$SHORT_SHA
-      - --cache=true
-      - --cache-ttl=72h
+      - -c
+      - |
+        docker pull ${_DOCKER_IMAGE_NAME}:latest || exit 0
+
+  - name: 'gcr.io/cloud-builders/docker'
+    entrypoint: bash
+    args:
+      - -c
+      - |
+        docker build \
+          --file=${_DOCKER_FILE} \
+          --tag=${_DOCKER_IMAGE_NAME}:latest \
+          --tag=${_DOCKER_IMAGE_NAME}:$SHORT_SHA \
+          --from-cache=${_DOCKER_IMAGE_NAME}:latest \
+          .
+
+  - name: 'gcr.io/cloud-builders/docker'
+    entrypoint: bash
+    args:
+      - -c
+      - |
+        docker push --all-tags ${_DOCKER_IMAGE_NAME}
 
   - name: 'gcr.io/cloud-builders/git'
     secretEnv: ['SSH_KEY']
