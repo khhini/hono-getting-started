@@ -1,9 +1,12 @@
 import { Hono } from 'hono';
 
-import healthCheckHandler from '../handlers/healthCheckHandler';
+import HealthCheckHandler from '../handlers/healthCheckHandler';
+
+const healthCheckHandler = new HealthCheckHandler();
+healthCheckHandler.init();
 
 const router = new Hono();
 
-router.route(`/healthz`, healthCheckHandler);
+router.route(`/healthz`, healthCheckHandler.getHandler());
 
 export default router

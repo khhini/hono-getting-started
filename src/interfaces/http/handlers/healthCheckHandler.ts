@@ -2,17 +2,28 @@ import { Hono } from 'hono';
 import { HTTPException } from 'hono/http-exception';
 import { randomError } from '../../../helpers/randomError';
 
-const handler = new Hono();
+class HealthCheckHandler {
+  private handler: Hono
 
-handler.get('/', (c) => { 
-
-  if(randomError(0.1)) {
-    throw new HTTPException(500, {message: 'Internal Server Error'})
+  constructor() {
+    this.handler = new Hono();
   }
 
-  return c.json({
-    status: "HEALTHY"
-  }, 200)
-})
+  init() {
+    this.handler.get('/', (c) => { 
+      if(randomError(0.1)) {
+        throw new HTTPException(500, {message: 'Internal Server Error'})
+      }
 
-export default handler
+      return c.json({
+        status: "HEALTHY"
+      }, 200);
+    });
+  }
+
+  getHandler(): Hono {
+    return this.handler
+  }
+}
+
+export default HealthCheckHandler
