@@ -4,7 +4,7 @@ import MetricHandler from '../handlers/metricHandler';
 import config from "../../../../config";
 
 const metricHandler = new MetricHandler(
-  setupPrometheusRegistry(`${config.service.name.replace('-','_')}_${config.env}_`)
+  setupPrometheusRegistry(`${config.service.name.replaceAll('-','_')}_${config.env}_`)
 ); 
 metricHandler.init();
 

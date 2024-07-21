@@ -7,8 +7,10 @@ services:
       dockerfile: ./deployments/docker/Dockerfile
     environment:
       ENV: dev
+      SERVICE_NAME: hono-getting-started
       HOST: 0.0.0.0
       PORT: 8080
+      LOG_LEVEL: info
     ports:
       - 8080:8080
 
