@@ -11,7 +11,7 @@ const app = new Hono()
 
 app.use(logger(config.logging.level));
 
-app.route(`/${config.api.version}/api`, apiRouter);
+app.route(`/api/${config.api.version}/`, apiRouter);
 app.route('/metrics', metricRouter);
 
 app.onError((err, c) => {
