@@ -3,8 +3,8 @@ steps:
     args:
       - --context=.
       - --dockerfile=${_DOCKER_FILE}
-      - --destination:${_DOCKER_IMAGE_NAME}:latest
-      - --destination:${_DOCKER_IMAGE_NAME}:$SHORT_SHA
+      - --destination=${_DOCKER_IMAGE_NAME}:latest
+      - --destination=${_DOCKER_IMAGE_NAME}:$SHORT_SHA
       - --cache=true
       - --cache-ttl=72h
 
