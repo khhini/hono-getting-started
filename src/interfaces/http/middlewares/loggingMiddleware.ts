@@ -1,11 +1,9 @@
 import { createMiddleware } from 'hono/factory';
 import { MiddlewareHandler } from 'hono';
-import { setupLogger } from '../../../utils/logger';
+import { logger } from '../../../utils/logger';
 import statusMessages from '../../../helpers/statusMessage';
 
-function logger(level: string, logName: string): MiddlewareHandler {
-  const log = setupLogger(level, logName); 
-  
+function loggingMiddleware(): MiddlewareHandler {
   return createMiddleware(async (c, next) => {
     const startTime = Date.now();
     const { method, path } = c.req;
@@ -21,7 +19,7 @@ function logger(level: string, logName: string): MiddlewareHandler {
     }
 
     const requestId = `${startTime}-${Math.random()}`;
-    log.child({requestId, method, path})
+    logger.child({requestId, method, path})
 
     
     await next()
@@ -53,15 +51,15 @@ function logger(level: string, logName: string): MiddlewareHandler {
         ...logFormat
       }
 
-      if (status >= 500 ) log.error(`ERROR: ${logMessage}`, errorLogFormat)
-      else if (status >= 400 && status < 500 ) log.warn(`WARN: ${logMessage}`, errorLogFormat)
+      if (status >= 500 ) logger.error(`ERROR: ${logMessage}`, errorLogFormat)
+      else if (status >= 400 && status < 500 ) logger.warn(`WARN: ${logMessage}`, errorLogFormat)
 
     } 
     
-    else if (status === 404) log.warn(`WARN: ${logMessage}`, logFormat)
-    else log.info(`INFO: ${logMessage}`, logFormat)
+    else if (status === 404) logger.warn(`WARN: ${logMessage}`, logFormat)
+    else logger.info(`INFO: ${logMessage}`, logFormat)
 
   })
 }
 
-export {logger}
+export { loggingMiddleware }

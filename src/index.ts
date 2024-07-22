@@ -1,5 +1,6 @@
 import app from './app';
 import config from '../config';
+import { logger } from './utils/logger';
 
 
 const server = Bun.serve({
@@ -8,4 +9,4 @@ const server = Bun.serve({
   fetch: app.fetch
 });
 
-console.log(`Listening on http://${server.hostname}:${server.port} ...`);
+logger.info(`Listening on http://${server.hostname}:${server.port} ...`);

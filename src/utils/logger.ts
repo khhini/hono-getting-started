@@ -1,4 +1,5 @@
 import * as winston from 'winston';
+import config from '../../config';
 
 function customJsonLogFormat(logName: string): winston.Logform.Format {
   return winston.format.printf(({level, message, ...rest}) => {
@@ -10,28 +11,27 @@ function customJsonLogFormat(logName: string): winston.Logform.Format {
     });
   })
 }
+const logName = `services/${config.service.name}-${config.env}/logs`;  
 
-function setupLogger(level: string, logName: string): winston.Logger {
-  return winston.createLogger({
-    level: level,
-    format: winston.format.combine(
-      winston.format.timestamp(),
-      customJsonLogFormat(logName),
+const logger = winston.createLogger({
+  level: config.log.level,
+  format: winston.format.combine(
+    winston.format.timestamp(),
+    customJsonLogFormat(logName),
 
-    ),
-    transports: [
-      new winston.transports.Console({
-        stderrLevels: ['error'],
-        consoleWarnLevels: ['warn', 'debug'],
-      }),
-    ],
-    rejectionHandlers: [
-      new winston.transports.Console({
-        stderrLevels: ['error'],
-        consoleWarnLevels: ['warn', 'debug'],
-      }),
-    ]
-  })
-} 
+  ),
+  transports: [
+    new winston.transports.Console({
+      stderrLevels: ['error'],
+      consoleWarnLevels: ['warn', 'debug'],
+    }),
+  ],
+  rejectionHandlers: [
+    new winston.transports.Console({
+      stderrLevels: ['error'],
+      consoleWarnLevels: ['warn', 'debug'],
+    }),
+  ]
+})
 
-export {setupLogger}
+export { logger }

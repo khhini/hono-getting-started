@@ -1,5 +1,6 @@
 import { Hono } from "hono";
 import { Registry } from "prom-client";
+import { logger } from "../../../utils/logger";
 
 class MetricHandler {
   private registry: Registry

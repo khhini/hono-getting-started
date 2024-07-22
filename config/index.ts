@@ -11,7 +11,7 @@ const config = {
     version: process.env.API_VERSION || 'v1'
   },
   log: {
-    level: process.env.LOG_LEVEL || 'info',
+    level: process.env.LOG_LEVEL || 'debug',
   },
 }
 
