@@ -13,4 +13,11 @@ services:
       LOG_LEVEL: debug
     ports:
       - 8080:8080
+    networks:
+      - ops-suite
 
+networks:
+  ops-suite:
+    name: ops-suite
+    external: true
+   
