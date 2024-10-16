@@ -1,6 +1,6 @@
 steps:
   - name: busybox
-    args: ["true"] # Change to false to simulate failure
+    args: ["false"] # Change to false to simulate failure
 
 
 options:
