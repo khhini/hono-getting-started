@@ -1,3 +1,7 @@
 steps:
   - name: busybox
     args: ["true"] # Change to false to simulate failure
+
+
+options:
+  logging: CLOUD_LOGGING_ONLY
