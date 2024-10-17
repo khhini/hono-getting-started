@@ -5,7 +5,9 @@ steps:
 substitutions:
   _APP_NAME: hono-getting-started
   _APP_SERVICE: api
-  _AUTHORS: kiki.h.hutapea@gmail.com
+  # Notifications Varaiable
+  _COMMIT_USER: '${commit.commit.author.email}${csr.refUpdateEvent.email}'
+  _COMMIT_URL: '${commit.url}${csr.url}'
   _COMMIT_MESSAGE: '$(commit.commit.message)'
 
 options:
