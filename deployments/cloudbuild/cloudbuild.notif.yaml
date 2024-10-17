@@ -6,7 +6,7 @@ substitutions:
   _APP_NAME: hono-getting-started
   _APP_SERVICE: api
   _AUTHORS: kiki.h.hutapea@gmail.com
-  _COMMIT_MESSAGE: '${PROJECT_ID}'
+  _COMMIT_MESSAGE: '$(commit.commit.message)'
 
 options:
   logging: CLOUD_LOGGING_ONLY
