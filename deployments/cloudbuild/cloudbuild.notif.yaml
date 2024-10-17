@@ -6,9 +6,9 @@ substitutions:
   _APP_NAME: hono-getting-started
   _APP_SERVICE: api
   # Notifications Varaiable
-  _COMMIT_USER: '$(commit.commit.author.email)$(csr.refUpdateEvent.email)'
-  _COMMIT_URL: '$(commit.url)$(csr.url)'
-  _COMMIT_MESSAGE: '$(commit.commit.message)'
+  # _COMMIT_USER: '$(commit.commit.author.email)$(csr.refUpdateEvent.email)'
+  # _COMMIT_URL: '$(commit.url)$(csr.url)'
+  _COMMIT_MESSAGE: $(commit.commit.message)
 
 options:
   logging: CLOUD_LOGGING_ONLY
