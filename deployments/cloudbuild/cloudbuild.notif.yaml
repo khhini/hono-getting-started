@@ -5,11 +5,12 @@ steps:
 substitutions:
   _APP_NAME: hono-getting-started
   _APP_SERVICE: api
-  # Notifications Varaiable
-  _COMMIT_USER: $(csr.refUpdateEvent.email)
-  _COMMIT_URL: $(csr.url)'
+  # GITHUB COMMIT INFO
+  _COMMIT_USER: $(commit.commit.author.email)
+  _COMMIT_URL: $(commit.url)
   _COMMIT_MESSAGE: $(commit.commit.message)
-
+  # ----
+  # CLOUD SOURCE REPO UPDATE EVENT INFO
 options:
   logging: CLOUD_LOGGING_ONLY
   dynamicSubstitutions: true
