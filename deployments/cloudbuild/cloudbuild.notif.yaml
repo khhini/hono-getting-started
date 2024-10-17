@@ -8,7 +8,7 @@ substitutions:
   _APP_SERVICE: api
 
   # GITHUB COMMIT INFO
-  _COMMIT_USER: $(commit.commit.author.email)
+  # _COMMIT_USER: $(commit.commit.author.email)
   _COMMIT_URL: "https://github.com/khhini/hono-getting-started/commit/${COMMIT_SHA}"
   _COMMIT_MESSAGE: $(commit.commit.message)
   # ----
@@ -26,7 +26,7 @@ substitutions:
   # - email specified on cloud-build-notifier config
   # Additional recipients can be added using _ADDITIONAL_RECIPIENTS subs
   # each email seperacted by `,`
-  _ADDITIONAL_RECIPIENTS: khhini@proton.me,kiki.hutapea@khhini.dev
+  # _ADDITIONAL_RECIPIENTS: khhini@proton.me,kiki.hutapea@khhini.dev
 options:
   logging: CLOUD_LOGGING_ONLY
   dynamicSubstitutions: true
