@@ -17,6 +17,16 @@ substitutions:
   # _COMMIT_USER: $(csr.refUpdateEvent.email) 
   # _COMMIT_URL: https://source.cloud.google.com/ebc-source-code/ppn-trading-fe/+/${COMMIT_SHA}
   # # ----
+  
+  # NOTIFICATION CONFIG
+  # Currently only support SMTP Channel
+  _NOTIF_CHANNEL: smtp
+  # By default notifiication will be sent to:
+  # - COMMIT_USER
+  # - email specified on cloud-build-notifier config
+  # Additional recipients can be added using _ADDITIONAL_RECIPIENTS subs
+  # each email seperacted by `,`
+  _ADDITIONAL_RECIPIENTS: khhini@proton.me,kiki.hutapea@khhini.dev
 options:
   logging: CLOUD_LOGGING_ONLY
   dynamicSubstitutions: true
